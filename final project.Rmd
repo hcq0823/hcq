@@ -1,0 +1,213 @@
+---
+title: "Finial Project"
+author: "Steven Huang"
+date: "2021/4/10"
+output: pdf_document
+---
+
+```{r}
+library(survival)
+heart<-read.csv('heart.csv')
+dim(heart)
+```
+
+
+```{r}
+sum(with(heart,heart$output==1))
+
+
+```
+```{r}
+info1<-sum(with(heart,heart$output==1))
+info2<-sum(with(heart,heart$output==0))
+info1
+info2
+x<-c(info1,info2)
+piepercent<- round(100*x/sum(x), 1)
+pie(x, labels = piepercent, main = "Percentage of person with heart disease attack in the dataset",col = rainbow(length(x)))
+legend("topright", c("more chance of heart attack","less chance of heart attack"), cex = 0.8,
+   fill = rainbow(length(x)))
+```
+```{r}
+hist(heart$age,main="Histogram of Age of the patient",xlab = "age",col = "yellow",border = "blue")
+hist(heart$sex,main="Histogram of Sex of the patient",xlab = "sex",col = "yellow",border = "blue")
+hist(heart$cp,main="Histogram of Chest Pain",xlab = "cp",col = "yellow",border = "blue")
+hist(heart$trtbps,main="Histogram of resting blood pressure (in mm Hg)",xlab = "trtbps",col = "yellow",border = "blue")
+hist(heart$chol,main="Histogram of cholestoral in mg/dl",xlab = "chol",col = "yellow",border = "blue")
+hist(heart$fbs,main="Histogram of  fasting blood sugar",xlab = "fbs",col = "yellow",border = "blue")
+hist(heart$restecg,main="Histogram of resting electrocardiographic results",xlab = "restecg",col = "yellow",border = "blue")
+hist(heart$thalachh,main="Histogram of Maximum heart rate",xlab = "thalachh",col = "yellow",border = "blue")
+hist(heart$exng,main="Histogram of exercise induced angina",xlab = "exng",col = "yellow",border = "blue")
+hist(heart$oldpeak,main="Histogram of Previous peak",xlab = "oldpeak",col = "yellow",border = "blue")
+hist(heart$slp,main="Histogram of Slope",xlab = "slp",col = "yellow",border = "blue")
+hist(heart$caa,main="Histogram of number of major vessels",xlab = "caa",col = "yellow",border = "blue")
+
+
+```
+```{r}
+sex1<-subset(heart,heart$sex==1)
+sexcc1<-sum(with(sex1,sex1$sex==1))
+sexc1<-sum(with(sex1,heart$output==1))
+piepercent1= sexc1 / sexcc1 * 100
+sex2<-subset(heart,heart$sex==0)
+sexcc2<-sum(with(sex2,sex2$sex==0))
+sexc2<-sum(with(sex2,sex2$output==1))
+piepercent2= sexc2 / sexcc2 * 100
+piepercent1
+piepercent2
+x<-c(piepercent1,piepercent2)
+y<-c("male","female")
+barplot(x,names.arg=y,xlab = "sex",ylab = "Percentage Of Heart Attack",col = "blue",
+main = "sex",border = "red",ylim=c(0,100))
+```
+```{r}
+cp0<-subset(heart,heart$cp==0)
+cpcc0<-sum(with(cp0,cp0$cp==0))
+cpc0<-sum(with(cp0,cp0$output==1))
+piepercent0= cpc0 / cpcc0 * 100
+cp1<-subset(heart,heart$cp==1)
+cpcc1<-sum(with(cp1,cp1$cp==1))
+cpc1<-sum(with(cp1,cp1$output==1))
+piepercent1= cpc1 / cpcc1 * 100
+cp2<-subset(heart,heart$cp==2)
+cpcc2<-sum(with(cp2,cp2$cp==2))
+cpc2<-sum(with(cp2,cp2$output==1))
+piepercent2= cpc2 / cpcc2 * 100
+cp3<-subset(heart,heart$cp==3)
+cpcc3<-sum(with(cp3,cp3$cp==3))
+cpc3<-sum(with(cp3,cp3$output==1))
+piepercent3= cpc3 / cpcc3 * 100
+piepercent0
+piepercent1
+piepercent2
+piepercent3
+x<-c(piepercent0,piepercent1,piepercent2,piepercent3)
+y<-c("0","1","2","3")
+barplot(x,names.arg=y,xlab = "cp",ylab = "Percentage Of Heart Attack",col = "blue",
+main = "chest Pain",border = "red",ylim=c(0,100))
+```
+
+
+```{r}
+fbs1<-subset(heart,heart$fbs==0)
+fbscc1<-sum(with(fbs1,heart$fbs==0))
+fbsc1<-sum(with(fbs1,fbs1$output==1))
+piepercent1= fbsc1 / fbscc1 * 100
+fbs2<-subset(heart,heart$fbs==1)
+fbscc2<-sum(with(fbs2,heart$fbs==1))
+fbsc2<-sum(with(fbs2,fbs2$output==1))
+piepercent2= fbsc2 / fbscc2 * 100
+piepercent1
+piepercent2
+x<-c(piepercent1,piepercent2)
+y<-c("0","1")
+barplot(x,names.arg=y,xlab = "fbs",ylab = "Percentage Of Heart Attack",col = "blue",
+main = "Blood Suger",border = "red",ylim=c(0,100))
+```
+```{r}
+restecg1<-subset(heart,heart$restecg==0)
+restecgcc1<-sum(with(restecg1,heart$restecg==0))
+restecgc1<-sum(with(restecg1,restecg1$output==1))
+piepercent1= restecgc1 / restecgcc1 * 100
+restecg2<-subset(heart,heart$restecg==1)
+restecgcc2<-sum(with(restecg2,heart$restecg==1))
+restecgc2<-sum(with(restecg2,restecg2$output==1))
+piepercent2= restecgc2 / restecgcc2 * 100
+piepercent1
+piepercent2
+x<-c(piepercent1,piepercent2)
+y<-c("0","1")
+barplot(x,names.arg=y,xlab = "restecg",ylab = "Percentage Of Heart Attack",col = "blue",
+main = "Electroncardiographic",border = "red",ylim=c(0,100))
+```
+```{r}
+exng1<-subset(heart,heart$exng==0)
+exngcc1<-sum(with(exng1,heart$exng==0))
+exngc1<-sum(with(exng1,exng1$output==1))
+piepercent1= exngc1 / exngcc1 * 100
+exng2<-subset(heart,heart$exng==1)
+exngcc2<-sum(with(exng2,heart$exng==1))
+exngc2<-sum(with(exng2,exng2$output==1))
+piepercent2= exngc2 / exngcc2 * 100
+piepercent1
+piepercent2
+x<-c(piepercent1,piepercent2)
+y<-c("0","1")
+barplot(x,names.arg=y,xlab = "exng",ylab = "Percentage Of Heart Attack",col = "blue",
+main = "Exercise Induced Angina",border = "red",ylim=c(0,100))
+```
+```{r}
+slp0<-subset(heart,heart$slp==0)
+slpcc0<-sum(with(slp0,heart$slp==0))
+slpc0<-sum(with(slp0,slp0$output==1))
+piepercent1= slpc0 / slpcc0 * 100
+slp1<-subset(heart,heart$slp==1)
+slpcc1<-sum(with(slp1,heart$slp==1))
+slpc1<-sum(with(slp1,slp1$output==1))
+piepercent1= slpc1 / slpcc1 * 100
+slp2<-subset(heart,heart$slp==2)
+slpcc2<-sum(with(slp2,heart$slp==2))
+slpc2<-sum(with(slp2,slp2$output==1))
+piepercent2=slpc2 / slpcc2 * 100
+piepercent0
+piepercent1
+piepercent2
+x<-c(piepercent0,piepercent1,piepercent2)
+y<-c("0","1","2")
+barplot(x,names.arg=y,xlab = "slp",ylab = "Percentage Of Heart Attack",col = "blue",
+main = "Slope",border = "red",ylim=c(0,100))
+```
+```{r}
+caa0<-subset(heart,heart$caa==0)
+caacc0<-sum(with(caa0,caa0$caa==0))
+caac0<-sum(with(caa0,caa0$output==1))
+piepercent0= caac0 / caacc0 * 100
+caa1<-subset(heart,heart$caa==1)
+caacc1<-sum(with(caa1,caa1$caa==1))
+caac1<-sum(with(caa1,caa1$output==1))
+piepercent1= caac1 / caacc1 * 100
+caa2<-subset(heart,heart$caa==2)
+caacc2<-sum(with(caa2,caa2$caa==2))
+caac2<-sum(with(caa2,caa2$output==1))
+piepercent2= caac2 / caacc2 * 100
+caa3<-subset(heart,heart$caa==3)
+caacc3<-sum(with(caa3,caa3$caa==3))
+caac3<-sum(with(caa3,caa3$output==1))
+piepercent3= caac3 / caacc3 * 100
+piepercent0
+piepercent1
+piepercent2
+piepercent3
+x<-c(piepercent0,piepercent1,piepercent2,piepercent3)
+y<-c("0","1","2","3")
+barplot(x,names.arg=y,xlab = "caa",ylab = "Percentage Of Heart Attack",col = "blue",
+main = "Number Of Major Vessels",border = "red",ylim=c(0,100))
+```
+
+```{r}
+thall0<-subset(heart,heart$thall==0)
+thallcc0<-sum(with(thall0,caa0$thall==0))
+thallc0<-sum(with(thall0,caa0$output==1))
+piepercent0= thallc0 / thallcc0 * 100
+thall1<-subset(heart,heart$thall==1)
+thallcc1<-sum(with(thall1,thall1$thall==1))
+thallc1<-sum(with(thall1,thall1$output==1))
+piepercent1= thallc1 / thallcc1 * 100
+thall2<-subset(heart,heart$thall==2)
+thallcc2<-sum(with(thall2,thall2$thall==2))
+thallc2<-sum(with(thall2,thall2$output==1))
+piepercent2= thallc2 /thallcc2 * 100
+thall3<-subset(heart,heart$thall==3)
+thallcc3<-sum(with(thall3,thall3$thall==3))
+thallc3<-sum(with(thall3,thall3$output==1))
+piepercent3= thallc3 / thallcc3 * 100
+piepercent0
+piepercent1
+piepercent2
+piepercent3
+x<-c(piepercent0,piepercent1,piepercent2,piepercent3)
+y<-c("0","1","2","3")
+barplot(x,names.arg=y,xlab = "thall",ylab = "Percentage Of Heart Attack",col = "blue",
+main = "Thal Rate",border = "red",ylim=c(0,100))
+```
+
